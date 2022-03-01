@@ -1,0 +1,23 @@
+
+spring:
+  kafka:
+    bootstrap-server: 127.0.0.1:9002 #指定kafka server的地址，集群配置多个，中间逗号隔开
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+      properties:
+        partitioner:
+          class: com.ylt.kafkaspringboot.partition.CustomizePartitioner # 开启分区指定策略 绑定类
+      transaction-id-prefix: kafka_tx.  #开启事务
+    consumer:
+      group-id: default_consumer_group #群组ID
+      enable-auto-commit: true
+      auto-commit-interval: 1000
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+#      max-poll-records: 10    # 批量消费最多 多少条消息
+#    listener:     #开启批量消费
+#      type: batch
+
+server:
+  port: 8081
